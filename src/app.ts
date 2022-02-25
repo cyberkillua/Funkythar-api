@@ -25,7 +25,7 @@ app.post("/hook", async (req, res) => {
 
   authorization = JSON.stringify(authorization);
   try {
-    await db.User.create({
+    await db.Customer.create({
       email,
       authorization,
     });

@@ -2,14 +2,14 @@
 import { Model } from "sequelize";
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Customer extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
   }
-  User.init(
+  Customer.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -29,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      tableName: "users",
-      modelName: "User",
+      tableName: "customers",
+      modelName: "Customer",
     }
   );
-  return User;
+  return Customer;
 };
