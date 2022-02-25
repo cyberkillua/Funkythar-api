@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.post("/hook", (req, res) => {
   var event = req.body;
   console.log(event);
-  res.status(200).json({ msg: "success" });
+  res.status(200).json({ msg: "success", event });
 });
 app.get("/", (_req, res) => {
   res.end("Works!!");
