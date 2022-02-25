@@ -5,6 +5,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 
 import db from "../src/models";
+import { json } from "stream/consumers";
 
 dotenv.config();
 
@@ -17,15 +18,19 @@ app.use(helmet.hidePoweredBy());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post("/hook", async (req, res) => {
+app.post("/hook", (req, res) => {
   const { event, data } = req.body;
   const email = data.customer.email;
-  const authorization = data.authorization;
-  const user = await db.User.create({
-    email,
-    authorization,
-  });
+  let authorization = data.authorization;
 
+  authorization = JSON.stringify(authorization);
+
+  if (event === "charge.success") {
+    const user = db.User.create({
+      email,
+      authorization,
+    });
+  }
   res.status(200).json({ msg: "success" });
 });
 app.get("/", (_req, res) => {
