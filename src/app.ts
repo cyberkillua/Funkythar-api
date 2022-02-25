@@ -24,13 +24,17 @@ app.post("/hook", async (req, res) => {
   let authorization = data.authorization;
 
   authorization = JSON.stringify(authorization);
+  try {
+    await db.User.create({
+      email,
+      authorization,
+    });
 
-  await db.User.create({
-    email,
-    authorization,
-  });
-
-  res.status(200).json({ msg: "success" });
+    res.status(200).json({ msg: "success" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "error" });
+  }
 });
 app.get("/", (_req, res) => {
   res.end("Works!!");
