@@ -18,19 +18,18 @@ app.use(helmet.hidePoweredBy());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post("/hook", (req, res) => {
+app.post("/hook", async (req, res) => {
   const { event, data } = req.body;
-  const email = data.customer.email;
+  const email = data.customer?.email;
   let authorization = data.authorization;
 
   authorization = JSON.stringify(authorization);
 
-  if (event === "charge.success") {
-    const user = db.User.create({
-      email,
-      authorization,
-    });
-  }
+  await db.User.create({
+    email,
+    authorization,
+  });
+
   res.status(200).json({ msg: "success" });
 });
 app.get("/", (_req, res) => {
