@@ -4,6 +4,8 @@ import noCache from "nocache";
 import cors from "cors";
 import * as dotenv from "dotenv";
 
+import db from "../src/models";
+
 dotenv.config();
 
 const app = express();
@@ -15,10 +17,16 @@ app.use(helmet.hidePoweredBy());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.post("/hook", (req, res) => {
-  var event = req.body;
-  console.log(event);
-  res.status(200).json({ msg: "success", event });
+app.post("/hook", async (req, res) => {
+  const { event, data } = req.body;
+  const email = data.customer.email;
+  const authorization = data.authorization;
+  const user = await db.User.create({
+    email,
+    authorization,
+  });
+
+  res.status(200).json({ msg: "success" });
 });
 app.get("/", (_req, res) => {
   res.end("Works!!");
