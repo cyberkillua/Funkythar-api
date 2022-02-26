@@ -5,7 +5,8 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 
 import db from "../src/models";
-import { json } from "stream/consumers";
+
+import { createCustomerInfo } from "./controllers/customerInfo";
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ app.use(helmet());
 app.use(helmet.hidePoweredBy());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+
+app.post("/customerInfo", createCustomerInfo);
 
 app.post("/hook", async (req, res) => {
   const { event, data } = req.body;
