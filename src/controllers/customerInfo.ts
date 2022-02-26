@@ -10,9 +10,9 @@ export const createCustomerInfo = async (req: Request, res: Response) => {
       shippingAddress,
       refferalCode,
     });
-    res.status(200).json({ msg: "success" });
+    res.status(200).json({ msg: "success", customerInfo });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "error" });
+    res.status(500).json({ msg: "error", error });
   }
 };
