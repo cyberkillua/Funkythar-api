@@ -9,6 +9,7 @@ import db from "../src/models";
 import {
   chargeCustomers,
   createCustomerInfo,
+  getRegisteredCustomers,
 } from "./controllers/customerInfo";
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.post("/customerInfo", createCustomerInfo);
 app.post("/chargeCustomers", chargeCustomers);
+app.get("/getcustomercharged", getRegisteredCustomers);
 
 app.post("/hook", async (req, res) => {
   const { event, data } = req.body;

@@ -50,10 +50,21 @@ export const chargeCustomers = async (req: Request, res: Response) => {
       console.log(response.data);
       const final = response.data;
       // return res?.data;
-      res.status(200).json({ msg: "success", final });
+      res.status(200).json({ msg: "success" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error", error });
     }
   });
+};
+
+export const getRegisteredCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await db.Customer.findAll({});
+    const numOfCustomers = customers.length;
+    res.status(200).json({ msg: "success", numOfCustomers });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "error", error });
+  }
 };
