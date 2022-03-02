@@ -42,9 +42,9 @@ export const chargeCustomers = async (req: Request, res: Response) => {
         method: "POST" as Method,
         data: params,
         headers: {
-          Authorization: 'Bearer SECRET_KEY',
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${process.env.SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
       };
       const response = await axios(config);
       console.log(response.data);
