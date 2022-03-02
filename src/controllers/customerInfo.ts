@@ -41,6 +41,10 @@ export const chargeCustomers = async (req: Request, res: Response) => {
         url: "https://api.paystack.co/transaction/charge_authorization",
         method: "POST" as Method,
         data: params,
+        headers: {
+          Authorization: 'Bearer SECRET_KEY',
+          'Content-Type': 'application/json'
+        }
       };
       const response = await axios(config);
       console.log(response.data);
