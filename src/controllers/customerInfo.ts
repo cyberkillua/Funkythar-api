@@ -38,7 +38,7 @@ export const chargeCustomers = async (req: Request, res: Response) => {
 
       const config = {
         // port: 443,
-        url: "api.paystack.co/transaction/charge_authorization",
+        url: "https://api.paystack.co/transaction/charge_authorization",
         method: "POST" as Method,
         data: params,
       };
