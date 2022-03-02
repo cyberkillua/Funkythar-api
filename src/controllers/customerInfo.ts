@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import db from "../models";
+import axios, { Method } from "axios";
 
 export const createCustomerInfo = async (req: Request, res: Response) => {
   const { name, phoneNumber, shippingAddress, refferalCode, email } = req.body;
@@ -16,4 +17,44 @@ export const createCustomerInfo = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json({ msg: "error", error });
   }
+};
+
+export const chargeCustomers = async (req: Request, res: Response) => {
+  const customers = await db.Customer.findAll({});
+
+  customers.forEach(async (customer) => {
+    customer.authorization = JSON.parse(customer.authorization);
+
+    const authCode = customer.authorization.authorization_code;
+    const email = customer.email;
+    console.log(email, authCode);
+
+    try {
+      const params = JSON.stringify({
+        email,
+        authorization_code: authCode,
+        amount: 990000,
+      });
+
+      const config = {
+        hostname: "api.paystack.co",
+        port: 443,
+        path: "/transaction/charge_authorization",
+        method: "POST" as Method,
+        data: params,
+        headers: {
+          Authorization: "Bearer SECRET_KEY",
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await axios(config);
+      console.log(response.data);
+      const final = response.data;
+      // return res?.data;
+      res.status(200).json({ msg: "success", final });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error", error });
+    }
+  });
 };

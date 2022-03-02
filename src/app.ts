@@ -6,7 +6,10 @@ import * as dotenv from "dotenv";
 
 import db from "../src/models";
 
-import { createCustomerInfo } from "./controllers/customerInfo";
+import {
+  chargeCustomers,
+  createCustomerInfo,
+} from "./controllers/customerInfo";
 
 dotenv.config();
 
@@ -19,8 +22,8 @@ app.use(helmet.hidePoweredBy());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
 app.post("/customerInfo", createCustomerInfo);
+app.post("/chargeCustomers", chargeCustomers);
 
 app.post("/hook", async (req, res) => {
   const { event, data } = req.body;
